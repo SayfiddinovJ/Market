@@ -9,7 +9,7 @@ import 'package:market/ui/splash/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageRepository.getInstance();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const App());
 }
 
