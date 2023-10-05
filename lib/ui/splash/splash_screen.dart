@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/data/local/storage_repository.dart';
-import 'package:market/ui/admin/tabs_box_admin.dart';
+import 'package:market/ui/app/app.dart';
 import 'package:market/ui/auth/sign_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -9,13 +10,13 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _navigate(context);
-    return const Scaffold(
-      body: Center(child: FlutterLogo()),
+    return  Scaffold(
+      body: Center(child: FlutterLogo(size: 100.w)),
     );
   }
 
   _navigate(BuildContext context) async {
-    String key = StorageRepository.getString('key');
+    String key = StorageRepository.getString('token');
     await Future.delayed(const Duration(seconds: 1));
     if (context.mounted) {
       Navigator.pushReplacement(
@@ -23,9 +24,7 @@ class SplashScreen extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => key.isEmpty
               ? const SignInScreen()
-              : key == 'admin'
-                  ? const TabsBoxAdmin()
-                  : const TabsBoxAdmin(),
+              : const App(),
         ),
       );
     }
