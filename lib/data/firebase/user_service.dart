@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/result.dart';
 import 'package:market/data/models/universal_data.dart';
 import 'package:market/data/models/user/user_model.dart';
@@ -16,6 +17,7 @@ class UserRepository {
           .update({
         "user_id": newUser.id,
       });
+      await StorageRepository.putString('user_id', newUser.id);
 
       return UniversalData(data: "User added!");
     } on FirebaseException catch (e) {
@@ -41,7 +43,8 @@ class UserRepository {
     }
   }
 
-  static Future<UniversalData> deleteUser({required String userId}) async {
+  static Future<UniversalData> deleteUser() async {
+    String userId = StorageRepository.getString('user_id');
     try {
       await FirebaseFirestore.instance.collection("users").doc(userId).delete();
 
@@ -53,13 +56,14 @@ class UserRepository {
     }
   }
 
-  Future<Result> getUserByUserId(String userId) async {
+  Future<Result> getUserByUserId() async {
+    String userId = StorageRepository.getString('user_id');
     try {
-      final client = await FirebaseFirestore.instance
+      final user = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get();
-      return Result.success(UserModel.fromJson(client.data()!));
+      return Result.success(UserModel.fromJson(user.data()!));
     } on FirebaseException catch (e) {
       return Result.fail(e.code);
     } catch (e) {

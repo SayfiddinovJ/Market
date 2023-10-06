@@ -8,7 +8,6 @@ import 'package:market/data/models/user/user_model.dart';
 import 'package:market/data/models/user/user_model_fields.dart';
 
 part 'user_event.dart';
-
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UsersState> {
@@ -38,7 +37,7 @@ class UserBloc extends Bloc<UserEvent, UsersState> {
   Future<void> addUser(
       AddUserEvent addUserEvent, Emitter<UsersState> emit) async {
     emit(state.copyWith(statusText: "loading...", status: FormStatus.loading));
-    await UserRepository.addUser(userModel: state.userModel);
+    await UserRepository.addUser(userModel: addUserEvent.userModel);
     debugPrint('added');
     emit(state.copyWith(
         status: FormStatus.success, statusText: "User added successfully"));
@@ -57,7 +56,7 @@ class UserBloc extends Bloc<UserEvent, UsersState> {
   Future<void> deleteUser(
       DeleteUserEvent deleteUserEvent, Emitter<UsersState> emit) async {
     emit(state.copyWith(statusText: "loading...", status: FormStatus.loading));
-    await UserRepository.deleteUser(userId: deleteUserEvent.userId);
+    await UserRepository.deleteUser();
     emit(state.copyWith(
         status: FormStatus.success, statusText: "User deleted successfully"));
   }
@@ -81,11 +80,11 @@ class UserBloc extends Bloc<UserEvent, UsersState> {
 
   Future<void> getUserByDocId(
       GetUserEvent getUserEvent, Emitter<UsersState> emit) async {
-    final userId = StorageRepository.getString('userId');
+    final userId = StorageRepository.getString('user_id');
     final docRef = FirebaseFirestore.instance.collection('users').doc(userId);
 
     final data = await docRef.get();
-
+debugPrint('Data: $data');
     if (data.exists) {
       final userModel = UserModel.fromJson(data.data() as Map<String, dynamic>);
       emit(state.copyWith(userModel: userModel));

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:market/blocs/user_bloc/user_bloc.dart';
 import 'package:market/cubits/auth_cubit/auth_cubit.dart';
 import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/status.dart';
+import 'package:market/data/models/user/user_model.dart';
 import 'package:market/ui/admin/tabs_box_admin.dart';
 import 'package:market/ui/auth/sign_in_screen.dart';
 import 'package:market/ui/user/tabs_box.dart';
@@ -124,6 +126,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listener: (context, state) {
           String token = StorageRepository.getString('token');
           if (state.status == FormStatus.authenticated) {
+            context.read<UserBloc>().add(
+                  AddUserEvent(
+                    userModel: UserModel(
+                      image: '',
+                      fullName: nameController.text,
+                      email: '${nameController.text}@gmail.com',
+                      phone: phoneController.text,
+                      createdAt: DateTime.now().toString(),
+                      userId: '',
+                      password: passwordController.text,
+                    ),
+                  ),
+                );
             Fluttertoast.showToast(msg: 'SSL Marketga xush kelibsiz');
             Navigator.pushReplacement(
               context,

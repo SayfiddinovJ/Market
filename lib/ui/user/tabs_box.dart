@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:market/blocs/user_bloc/user_bloc.dart';
 import 'package:market/cubits/auth_cubit/auth_cubit.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/models/status.dart';
@@ -18,8 +19,13 @@ class TabsBox extends StatefulWidget {
 class _TabsBoxState extends State<TabsBox> {
   List<Widget> screens = [];
 
+  init() {
+    context.read<UserBloc>().add(GetUserEvent());
+  }
+
   @override
   void initState() {
+    init();
     screens.add(const ProductsScreen());
     screens.add(const CategoryScreen());
     screens.add(const ProfileScreen());

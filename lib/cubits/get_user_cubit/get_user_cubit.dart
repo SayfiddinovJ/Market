@@ -9,9 +9,9 @@ class GetUserCubit extends Cubit<GetUserState> {
 
   GetUserCubit(this.userService) : super(GetUserLoading());
 
-  fetchClientData(String userId) async {
+  fetchClientData() async {
     emit(GetUserLoading());
-    final response = await userService.getUserByUserId(userId);
+    final response = await userService.getUserByUserId();
     response.isSuccess
         ? emit(GetUserSuccess(response.data))
         : emit(GetUserError(response.errorMessage!));

@@ -4,7 +4,11 @@ abstract class UserEvent {}
 
 class GetUserEvent extends UserEvent {}
 
-class AddUserEvent extends UserEvent {}
+class AddUserEvent extends UserEvent {
+  final UserModel userModel;
+
+  AddUserEvent({required this.userModel});
+}
 
 class UpdateUserEvent extends UserEvent {}
 
