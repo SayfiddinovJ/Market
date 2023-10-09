@@ -19,6 +19,11 @@ class ProfileScreen extends StatelessWidget {
               await StorageRepository.deleteString('user_id');
             },
             icon: const Icon(Icons.logout),
+          ), IconButton(
+            onPressed: () async {
+              context.read<UserBloc>().add(GetUserEvent());
+            },
+            icon: const Icon(Icons.get_app),
           ),
         ],
       ),

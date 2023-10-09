@@ -31,6 +31,7 @@ class UserBloc extends Bloc<UserEvent, UsersState> {
     on<AddUserEvent>(addUser);
     on<UpdateUserEvent>(updateUser);
     on<DeleteUserEvent>(deleteUser);
+    on<GetUserEvent>(getUserByDocId);
     on<UpdateCurrentUserEvent>(updateCurrentUserField);
   }
 
