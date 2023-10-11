@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:market/blocs/user_bloc/user_bloc.dart';
 import 'package:market/cubits/auth_cubit/auth_cubit.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/firebase/user_service.dart';
@@ -32,9 +31,6 @@ class AppLevel extends StatelessWidget {
           BlocProvider(create: (context) => TabsBoxCubit()),
           BlocProvider(
               create: (context) => AuthCubit(context.read<AuthRepository>())),
-          BlocProvider(
-              create: (context) =>
-                  UserBloc(userRepository: context.read<UserRepository>())),
         ],
         child: const MyApp(),
       ),

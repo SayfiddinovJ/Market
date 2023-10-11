@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:market/blocs/user_bloc/user_bloc.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/ui/admin/add/add_screen.dart';
 import 'package:market/ui/admin/category/category_screen.dart';
@@ -17,13 +16,8 @@ class TabsBoxAdmin extends StatefulWidget {
 class _TabsBoxAdminState extends State<TabsBoxAdmin> {
   List<Widget> screens = [];
 
-  init() {
-    context.read<UserBloc>().add(GetUserEvent());
-  }
-
   @override
   void initState() {
-    init();
     screens.add(const HomeScreenAdmin());
     screens.add(const CategoryScreenAdmin());
     screens.add(const AddScreenAdmin());

@@ -43,8 +43,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp(context) async {
     emit(state.copyWith(status: FormStatus.loading));
-    showLoading(context: context)
- ;   UniversalData data = await authRepository.signUpUser(
+    showLoading(context: context);
+    UniversalData data = await authRepository.signUpUser(
       email: "${state.name}@gmail.com",
       password: state.password,
       isAdmin: admins.contains(state.name),

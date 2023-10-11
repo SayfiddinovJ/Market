@@ -27,9 +27,6 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
         builder: (context, state) {
-          // if (state.status == FormStatus.loading) {
-          //   return const Center(child: CircularProgressIndicator());
-          // }
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -64,7 +61,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       });
                     },
                     icon: Icon(
-                      isPassword ? Icons.visibility : Icons.visibility_off,
+                      isPassword ? Icons.visibility_off : Icons.visibility,
                     ),
                   ),
                   onChanged: (v) {
