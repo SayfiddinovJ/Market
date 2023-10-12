@@ -24,6 +24,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(phone: phone));
   }
 
+  void updatePhotoURL(String photoURL) {
+    emit(state.copyWith(photoURL: photoURL));
+  }
+
   Future<void> logOutUser(context) async {
     emit(state.copyWith(status: FormStatus.loading));
     showLoading(context: context);
@@ -45,7 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: FormStatus.loading));
     showLoading(context: context);
     UniversalData data = await authRepository.signUpUser(
-      email: "${state.name}@gmail.com",
+      email: state.name,
       password: state.password,
       isAdmin: admins.contains(state.name),
     );
@@ -67,9 +71,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: FormStatus.loading));
     showLoading(context: context);
     UniversalData data = await authRepository.loginUser(
-      email: "${state.name}@gmail.com",
+      email: state.name,
       password: state.password,
       isAdmin: admins.contains(state.name),
+      photoURL: state.photoURL,
     );
     hideLoading(context: context);
     if (data.error.isEmpty) {

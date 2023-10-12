@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:market/cubits/auth_cubit/auth_cubit.dart';
 import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/status.dart';
@@ -21,6 +22,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool isPassword = false;
+  ImagePicker imagePicker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,6 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                170.ph,
                 Text(
                   'Do\'konga kirish',
                   style: TextStyle(
@@ -42,6 +43,16 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 70.ph,
+                Center(
+                  child: Image.network(
+                    state.photoURL,
+                    height: 120.w,
+                    width: 120.w,
+                    errorBuilder: (context, object, stackTrace) =>
+                        Icon(Icons.account_circle, size: 120.w),
+                  ),
+                ),
+                24.ph,
                 GlobalTextField(
                   prefixIcon: const Icon(Icons.person),
                   hintText: 'Ism',

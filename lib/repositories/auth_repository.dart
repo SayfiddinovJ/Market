@@ -11,7 +11,7 @@ class AuthRepository {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
+        email: '$email@gmail.com',
         password: password,
       );
       await StorageRepository.putString('token', isAdmin ? 'admin' : 'user');
@@ -25,15 +25,19 @@ class AuthRepository {
 
   Future<UniversalData> loginUser({
     required String email,
+    required String photoURL,
     required String password,
     required bool isAdmin,
   }) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
+        email: '$email@gmail.com',
         password: password,
       );
+      User? user =  FirebaseAuth.instance.currentUser;
+      user?.updateDisplayName(email);
+      user?.updatePhotoURL(photoURL);
       await StorageRepository.putString('token', isAdmin ? 'admin' : 'user');
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
