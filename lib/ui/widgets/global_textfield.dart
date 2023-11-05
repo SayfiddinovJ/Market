@@ -93,7 +93,10 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
-
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.r),
+          borderSide: const BorderSide(color: Color(0xFFEBF0FF), width: 1),
+        ),
       ),
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,

@@ -13,11 +13,11 @@ class GlobalButton extends StatelessWidget {
     return ZoomTapButton(
       onTap: onTap,
       child: Container(
-        height: 56.h,
+        height: 60.h,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(24.r),
+          color: const Color(0xFF40BFFF),
+          borderRadius: BorderRadius.circular(5.r),
         ),
         child: Center(
           child: Text(

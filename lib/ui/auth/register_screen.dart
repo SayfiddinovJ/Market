@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                120.ph,
+                60.ph,
                 Text(
                   'Ro\'yxatdan o\'tish',
                   style: TextStyle(
@@ -46,7 +46,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 30.sp,
                   ),
                 ),
-                70.ph,
+                50.ph,
+
+                24.ph,
                 GlobalTextField(
                   prefixIcon: const Icon(Icons.person),
                   hintText: 'Ism',

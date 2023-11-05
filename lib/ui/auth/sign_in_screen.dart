@@ -8,9 +8,12 @@ import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/status.dart';
 import 'package:market/ui/admin/tabs_box_admin.dart';
 import 'package:market/ui/auth/register_screen.dart';
+import 'package:market/ui/auth/widgets/google_button.dart';
+import 'package:market/ui/auth/widgets/or.dart';
 import 'package:market/ui/user/tabs_box.dart';
 import 'package:market/ui/widgets/global_button.dart';
 import 'package:market/ui/widgets/global_textfield.dart';
+import 'package:market/utils/app_images/app_images.dart';
 import 'package:market/utils/extensions/extensions.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -31,38 +34,51 @@ class _SignInScreenState extends State<SignInScreen> {
         builder: (context, state) {
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Do\'konga kirish',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.sp,
-                  ),
-                ),
-                70.ph,
+                120.ph,
                 Center(
-                  child: Image.network(
-                    state.photoURL,
-                    height: 120.w,
-                    width: 120.w,
-                    errorBuilder: (context, object, stackTrace) =>
-                        Icon(Icons.account_circle, size: 120.w),
+                  child: Image.asset(
+                    AppImages.logo,
+                    height: 100.w,
+                    width: 100.w,
                   ),
                 ),
-                24.ph,
+                16.ph,
+                Center(
+                  child: Text(
+                    'OMPga Xush kelibsiz',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                      color: const Color(0xFF223263),
+                    ),
+                  ),
+                ),
+                8.ph,
+                Center(
+                  child: Text(
+                    'Davom etish uchun tizimga kiring',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12.sp,
+                      color: const Color(0xFF9098B1),
+                    ),
+                  ),
+                ),
+                28.ph,
                 GlobalTextField(
-                  prefixIcon: const Icon(Icons.person),
-                  hintText: 'Ism',
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  hintText: 'Email',
                   onChanged: (v) {
                     context.read<AuthCubit>().updateName(v);
                   },
                 ),
-                24.ph,
+                8.ph,
                 GlobalTextField(
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   hintText: 'Parol',
                   obscureText: isPassword,
                   suffixIcon: IconButton(
@@ -79,7 +95,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     context.read<AuthCubit>().updatePassword(v);
                   },
                 ),
-                40.ph,
+                16.ph,
                 GlobalButton(
                   text: 'Kirish',
                   onTap: () {
@@ -92,9 +108,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     }
                   },
                 ),
-                30.ph,
-                const Center(child: Text('yoki')),
-                24.ph,
+                21.ph,
+                const Or(),
+                16.ph,
+                GoogleButton(onTap: (){}),
+                16.ph,
                 Center(
                   child: TextButton(
                     onPressed: () {
