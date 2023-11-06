@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/data/local/storage_repository.dart';
 import 'package:market/ui/app/app.dart';
-import 'package:market/ui/auth/sign_in_screen.dart';
+import 'package:market/ui/auth/sign_in/sign_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

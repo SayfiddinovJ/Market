@@ -68,38 +68,40 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: widget.onChanged,
-      obscuringCharacter: '●',
-      readOnly: widget.readOnly,
-      controller: _internalController,
-      maxLines: widget.maxLines,
-      maxLength: widget.maxLength,
-      textCapitalization: widget.textCapitalization,
-      focusNode: widget.focusNode ?? internalFocusNode,
-      inputFormatters:
-          widget.textFormatter != null ? [widget.textFormatter!] : [],
-      obscureText: widget.obscureText ?? false,
-      decoration: InputDecoration(
-        counterText: '',
-        hintStyle: TextStyle(
-          fontFamily: "Urbanist",
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xff9e9e9e),
-          height: 20 / 14,
+    return SizedBox(
+      height: 69.h,
+      child: TextField(
+        onChanged: widget.onChanged,
+        readOnly: widget.readOnly,
+        controller: _internalController,
+        maxLines: widget.maxLines,
+        maxLength: widget.maxLength,
+        textCapitalization: widget.textCapitalization,
+        focusNode: widget.focusNode ?? internalFocusNode,
+        inputFormatters:
+            widget.textFormatter != null ? [widget.textFormatter!] : [],
+        obscureText: widget.obscureText ?? false,
+        decoration: InputDecoration(
+          counterText: '',
+          hintStyle: TextStyle(
+            fontFamily: "Urbanist",
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            color: const Color(0xff9e9e9e),
+            height: 20 / 14,
+          ),
+          contentPadding: widget.contentPadding,
+          hintText: widget.hintText,
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.suffixIcon,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.r),
+            borderSide: const BorderSide(color: Color(0xFFEBF0FF), width: 1),
+          ),
         ),
-        contentPadding: widget.contentPadding,
-        hintText: widget.hintText,
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.suffixIcon,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: Color(0xFFEBF0FF), width: 1),
-        ),
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
       ),
-      keyboardType: widget.keyboardType,
-      textInputAction: widget.textInputAction,
     );
   }
 }

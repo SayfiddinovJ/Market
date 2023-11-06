@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:market/cubits/auth_cubit/auth_cubit.dart';
+import 'package:market/bloc/auth_bloc/auth_bloc.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/models/status.dart';
-import 'package:market/ui/auth/sign_in_screen.dart';
+import 'package:market/ui/auth/sign_in/sign_in_screen.dart';
 import 'package:market/ui/user/category/category_screen.dart';
 import 'package:market/ui/user/products/products_screen.dart';
 import 'package:market/ui/user/profile/profile_screen.dart';
@@ -29,7 +29,7 @@ class _TabsBoxState extends State<TabsBox> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthCubit, AuthState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.status == FormStatus.unauthenticated) {
             Navigator.pushReplacement(

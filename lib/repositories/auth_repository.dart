@@ -1,63 +1,20 @@
-import 'package:market/data/local/storage_repository.dart';
+import 'package:market/data/firebase/auth_service.dart';
 import 'package:market/data/models/universal_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:market/data/models/user/user_model.dart';
 
 class AuthRepository {
-  Future<UniversalData> signUpUser({
-    required String email,
-    required String password,
-    required bool isAdmin,
-  }) async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: '$email@gmail.com',
-        password: password,
-      );
-      await StorageRepository.putString('token', isAdmin ? 'admin' : 'user');
-      return UniversalData(data: userCredential);
-    } on FirebaseAuthException catch (e) {
-      return UniversalData(error: e.message ?? "");
-    } catch (error) {
-      return UniversalData(error: error.toString());
-    }
-  }
+  AuthRepository({required this.authService});
 
-  Future<UniversalData> loginUser({
-    required String email,
-    required String photoURL,
-    required String password,
-    required bool isAdmin,
-  }) async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: '$email@gmail.com',
-        password: password,
-      );
-      User? user =  FirebaseAuth.instance.currentUser;
-      user?.updateDisplayName(email);
-      user?.updatePhotoURL(photoURL);
-      await StorageRepository.putString('token', isAdmin ? 'admin' : 'user');
-      return UniversalData(data: userCredential);
-    } on FirebaseAuthException catch (e) {
-      return UniversalData(error: e.message ?? "");
-    } catch (error) {
-      return UniversalData(error: error.toString());
-    }
-  }
+  final AuthService authService;
 
-  Future<UniversalData> logOutUser() async {
-    try {
-      await StorageRepository.deleteString('token');
-      await FirebaseAuth.instance.signOut();
-      return UniversalData(data: "User Logged Out");
-    } on FirebaseAuthException catch (e) {
-      return UniversalData(error: e.code);
-    } catch (error) {
-      return UniversalData(error: error.toString());
-    }
-  }
+  Future<UniversalData> registerUser({required UserModel userModel}) =>
+      authService.registerUser(userModel: userModel);
+
+  Future<UniversalData> logInUser({required UserModel userModel}) =>
+      authService.logInUser(userModel: userModel);
+
+  Future<UniversalData> logOutUser() => authService.logOutUser();
 
   Stream<User?> listenAuthState() => FirebaseAuth.instance.authStateChanges();
 }

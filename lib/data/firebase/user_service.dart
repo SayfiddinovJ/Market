@@ -4,8 +4,8 @@ import 'package:market/data/models/result.dart';
 import 'package:market/data/models/universal_data.dart';
 import 'package:market/data/models/user/user_model.dart';
 
-class UserRepository {
-  static Future<UniversalData> addUser({required UserModel userModel}) async {
+class UserService {
+   Future<UniversalData> addUser({required UserModel userModel}) async {
     try {
       DocumentReference newUser = await FirebaseFirestore.instance
           .collection("users")
@@ -27,7 +27,7 @@ class UserRepository {
     }
   }
 
-  static Future<UniversalData> updateUser(
+   Future<UniversalData> updateUser(
       {required UserModel userModel}) async {
     try {
       await FirebaseFirestore.instance
@@ -43,7 +43,7 @@ class UserRepository {
     }
   }
 
-  static Future<UniversalData> deleteUser() async {
+   Future<UniversalData> deleteUser() async {
     String userId = StorageRepository.getString('user_id');
     try {
       await FirebaseFirestore.instance.collection("users").doc(userId).delete();

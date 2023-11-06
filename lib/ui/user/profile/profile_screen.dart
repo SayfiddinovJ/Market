@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:market/cubits/auth_cubit/auth_cubit.dart';
-import 'package:market/data/local/storage_repository.dart';
+import 'package:market/bloc/auth_bloc/auth_bloc.dart';
+import 'package:market/bloc/auth_bloc/auth_event.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,9 +13,8 @@ class ProfileScreen extends StatelessWidget {
         title: const Text('Profile User'),
         actions: [
           IconButton(
-            onPressed: () async {
-              context.read<AuthCubit>().logOutUser(context);
-              await StorageRepository.deleteString('user_id');
+            onPressed: ()  {
+              context.read<AuthBloc>().add(LogOutEvent());
             },
             icon: const Icon(Icons.logout, color: Colors.red),
           ),

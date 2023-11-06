@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:market/data/local/storage_repository.dart';
 import 'package:market/repositories/auth_repository.dart';
 import 'package:market/ui/admin/tabs_box_admin.dart';
-import 'package:market/ui/auth/sign_in_screen.dart';
+import 'package:market/ui/auth/sign_in/sign_in_screen.dart';
 import 'package:market/ui/user/tabs_box.dart';
 
 class App extends StatelessWidget {

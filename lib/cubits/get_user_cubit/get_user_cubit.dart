@@ -5,7 +5,7 @@ import 'package:market/data/models/user/user_model.dart';
 part 'get_user_state.dart';
 
 class GetUserCubit extends Cubit<GetUserState> {
-  UserRepository userService;
+  UserService userService;
 
   GetUserCubit(this.userService) : super(GetUserLoading());
 
