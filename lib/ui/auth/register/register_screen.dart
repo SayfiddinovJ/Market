@@ -7,6 +7,7 @@ import 'package:market/data/models/status.dart';
 import 'package:market/ui/admin/tabs_box_admin.dart';
 import 'package:market/ui/auth/register/widgets/register_fields.dart';
 import 'package:market/ui/user/tabs_box.dart';
+import 'package:market/utils/dialog/circular_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,7 +17,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,19 +25,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return const RegisterFields();
         },
         listener: (context, state) {
-          String token = StorageRepository.getString('token');
+          String role = StorageRepository.getString('role');
           if (state.status == FormStatus.authenticated) {
             Fluttertoast.showToast(msg: 'OMPga xush kelibsiz');
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    token == 'admin' ? const TabsBoxAdmin() : const TabsBox(),
+                    role == 'admin' ? const TabsBoxAdmin() : const TabsBox(),
               ),
+              (route) => false,
             );
           }
           if (state.status == FormStatus.failure) {
             Fluttertoast.showToast(msg: 'Siz ro\'yxatdan o\'tgansiz');
+            hideLoading(context: context);
+          }
+          if (state.status == FormStatus.loading) {
+            showLoading(context: context);
+          }
+          if (state.status == FormStatus.success) {
+            hideLoading(context: context);
           }
         },
       ),

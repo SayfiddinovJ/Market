@@ -23,15 +23,15 @@ class AuthState {
       );
 
   String canLogIn() {
-    if (userModel.email.isEmpty) "Emailingizni kiriting";
-    if (userModel.password.isNotEmpty) "Parolingizni kiriting";
+    if (userModel.email.isEmpty) return "Emailingizni kiriting";
+    if (userModel.password.isEmpty) return "Parolingizni kiriting";
     return "";
   }
 
   String canRegister() {
-    if (userModel.fullName.isEmpty) "Ismingizni kiriting";
-    if (userModel.email.isEmpty) "Emailingizni kiriting";
-    if (userModel.password.isNotEmpty) "Parolingizni kiriting";
+    if (userModel.fullName.isEmpty) return "Ismingizni kiriting";
+    if (userModel.email.isEmpty) return "Emailingizni kiriting";
+    if (userModel.password.isEmpty) return "Parolingizni kiriting";
     return "";
   }
 

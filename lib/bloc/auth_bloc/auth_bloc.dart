@@ -30,6 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogOutEvent>(logOutUser);
     on<RegisterEvent>(register);
     on<LogInEvent>(logIn);
+    on<LogInWithGoogleEvent>(logInWithGoogle);
+    on<UpdateCurrentUserEvent>(updateCurrentUserField);
   }
 
   final AuthRepository authRepository;
@@ -50,10 +52,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  Future<void> logInWithGoogle(
+      LogInWithGoogleEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: FormStatus.loading));
+    UniversalData data = await authRepository.logInWithGoogle();
+    await userRepository.addUser(userModel: state.userModel);
+    if (data.error.isEmpty) {
+      emit(state.copyWith(status: FormStatus.unauthenticated));
+    } else {
+      emit(
+        state.copyWith(
+          status: FormStatus.failure,
+          statusMessage: data.error,
+        ),
+      );
+    }
+  }
+
   Future<void> register(RegisterEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: FormStatus.loading));
     UniversalData data =
         await authRepository.registerUser(userModel: state.userModel);
+    await userRepository.addUser(userModel: state.userModel);
     if (data.error.isEmpty) {
       emit(state.copyWith(status: FormStatus.authenticated));
     } else {
@@ -92,7 +112,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return state.canLogIn();
   }
 
-  updateCurrentCoffeeField(
+  clear(ClearEvent event, Emitter<AuthState> emit) {
+    emit(state.copyWith(
+      userModel: UserModel(
+        fullName: '',
+        email: '',
+        createdAt: '',
+        userId: '',
+        password: '',
+        role: '',
+      ),
+    ));
+  }
+
+  updateCurrentUserField(
       UpdateCurrentUserEvent updateCurrentUserEvent, Emitter<AuthState> emit) {
     UserModel user = state.userModel;
 
@@ -122,7 +155,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         break;
     }
 
-    debugPrint("Coffee Model: $user");
+    debugPrint("User model: $user");
     emit(state.copyWith(userModel: user));
   }
 }

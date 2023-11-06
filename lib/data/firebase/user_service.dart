@@ -5,7 +5,7 @@ import 'package:market/data/models/universal_data.dart';
 import 'package:market/data/models/user/user_model.dart';
 
 class UserService {
-   Future<UniversalData> addUser({required UserModel userModel}) async {
+  Future<UniversalData> addUser({required UserModel userModel}) async {
     try {
       DocumentReference newUser = await FirebaseFirestore.instance
           .collection("users")
@@ -18,7 +18,6 @@ class UserService {
         "user_id": newUser.id,
       });
       await StorageRepository.putString('user_id', newUser.id);
-
       return UniversalData(data: "User added!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);
@@ -27,14 +26,14 @@ class UserService {
     }
   }
 
-   Future<UniversalData> updateUser(
-      {required UserModel userModel}) async {
+  Future<UniversalData> updateUser({required UserModel userModel}) async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(userModel.userId)
           .update(userModel.toJson());
 
+      await StorageRepository.putString('user_id', userModel.userId);
       return UniversalData(data: "User updated!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);
@@ -43,7 +42,7 @@ class UserService {
     }
   }
 
-   Future<UniversalData> deleteUser() async {
+  Future<UniversalData> deleteUser() async {
     String userId = StorageRepository.getString('user_id');
     try {
       await FirebaseFirestore.instance.collection("users").doc(userId).delete();

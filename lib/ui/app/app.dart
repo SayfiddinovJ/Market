@@ -21,7 +21,6 @@ class App extends StatelessWidget {
           } else if (snapshot.data == null) {
             return const SignInScreen();
           } else {
-            debugPrint('Snapshot data ${snapshot.data}');
             String key = StorageRepository.getString('token');
             return key == 'admin' ? const TabsBoxAdmin() : const TabsBox();
           }

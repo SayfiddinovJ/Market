@@ -16,5 +16,7 @@ class AuthRepository {
 
   Future<UniversalData> logOutUser() => authService.logOutUser();
 
+  Future<UniversalData> logInWithGoogle() => authService.signInWithGoogle();
+
   Stream<User?> listenAuthState() => FirebaseAuth.instance.authStateChanges();
 }

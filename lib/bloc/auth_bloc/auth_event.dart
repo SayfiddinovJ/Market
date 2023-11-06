@@ -4,9 +4,13 @@ abstract class AuthEvent {}
 
 class LogInEvent extends AuthEvent {}
 
+class LogInWithGoogleEvent extends AuthEvent {}
+
 class RegisterEvent extends AuthEvent {}
 
 class LogOutEvent extends AuthEvent {}
+
+class ClearEvent extends AuthEvent {}
 
 class UpdateCurrentUserEvent extends AuthEvent {
   final UserFieldKeys fieldKey;

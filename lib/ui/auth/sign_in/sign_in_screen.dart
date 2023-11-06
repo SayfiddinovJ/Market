@@ -7,6 +7,7 @@ import 'package:market/data/models/status.dart';
 import 'package:market/ui/admin/tabs_box_admin.dart';
 import 'package:market/ui/auth/sign_in/widgets/sign_in_fields.dart';
 import 'package:market/ui/user/tabs_box.dart';
+import 'package:market/utils/dialog/circular_dialog.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -24,19 +25,27 @@ class _SignInScreenState extends State<SignInScreen> {
           return const SignInFields();
         },
         listener: (context, state) {
-          String token = StorageRepository.getString('token');
+          String role = StorageRepository.getString('role');
           if (state.status == FormStatus.authenticated) {
             Fluttertoast.showToast(msg: 'OMPga Marketga xush kelibsiz');
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    token == 'admin' ? const TabsBoxAdmin() : const TabsBox(),
+                    role == 'admin' ? const TabsBoxAdmin() : const TabsBox(),
               ),
+              (route) => false,
             );
           }
           if (state.status == FormStatus.failure) {
-            Fluttertoast.showToast(msg: 'Siz hali ro\'yxatdan o\'magansiz');
+            Fluttertoast.showToast(msg: 'Siz hali ro\'yxatdan o\'tmagansiz');
+            hideLoading(context: context);
+          }
+          if (state.status == FormStatus.loading) {
+            showLoading(context: context);
+          }
+          if (state.status == FormStatus.success) {
+            hideLoading(context: context);
           }
         },
       ),

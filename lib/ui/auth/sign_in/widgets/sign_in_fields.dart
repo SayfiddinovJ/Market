@@ -31,7 +31,7 @@ class _SignInFieldsState extends State<SignInFields> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          120.ph,
+          100.ph,
           Center(
             child: Image.asset(
               AppImages.logo,
@@ -105,11 +105,14 @@ class _SignInFieldsState extends State<SignInFields> {
           21.ph,
           const Or(),
           16.ph,
-          GoogleButton(onTap: () {}),
+          GoogleButton(onTap: () {
+            context.read<AuthBloc>().add(LogInWithGoogleEvent());
+          }),
           16.ph,
           Center(
             child: TextButton(
               onPressed: () {
+                context.read<AuthBloc>().add(ClearEvent());
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

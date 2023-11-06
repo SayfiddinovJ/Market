@@ -12,7 +12,7 @@ class AuthService {
         email: userModel.email,
         password: userModel.password,
       );
-      await StorageRepository.putString('token', userModel.role);
+      await StorageRepository.putString('role', userModel.role);
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.message ?? "");
@@ -28,7 +28,7 @@ class AuthService {
         email: userModel.email,
         password: userModel.password,
       );
-      await StorageRepository.putString('token', userModel.role);
+      await StorageRepository.putString('role', userModel.role);
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.message ?? "");
@@ -39,7 +39,8 @@ class AuthService {
 
   Future<UniversalData> logOutUser() async {
     try {
-      await StorageRepository.deleteString('token');
+      await StorageRepository.deleteString('role');
+      await StorageRepository.deleteString('key');
       await StorageRepository.deleteString('user_id');
       await FirebaseAuth.instance.signOut();
       return UniversalData(data: "User Logged Out");
