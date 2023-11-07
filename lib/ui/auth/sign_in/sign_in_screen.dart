@@ -27,6 +27,7 @@ class _SignInScreenState extends State<SignInScreen> {
         listener: (context, state) {
           String role = StorageRepository.getString('role');
           if (state.status == FormStatus.authenticated) {
+            hideLoading(context: context);
             Fluttertoast.showToast(msg: 'OMPga Marketga xush kelibsiz');
             Navigator.pushAndRemoveUntil(
               context,
@@ -43,6 +44,9 @@ class _SignInScreenState extends State<SignInScreen> {
           }
           if (state.status == FormStatus.loading) {
             showLoading(context: context);
+          }
+          if (state.status == FormStatus.unauthenticated) {
+            hideLoading(context: context);
           }
           if (state.status == FormStatus.success) {
             hideLoading(context: context);

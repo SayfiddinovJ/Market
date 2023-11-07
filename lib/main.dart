@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/bloc/auth_bloc/auth_bloc.dart';
+import 'package:market/cubits/get_user_cubit/user_cubit.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/firebase/auth_service.dart';
 import 'package:market/data/firebase/user_service.dart';
@@ -40,6 +41,9 @@ class AppLevel extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => TabsBoxCubit()),
+          BlocProvider(
+            create: (context) => UserCubit(context.read<UserRepository>()),
+          ),
           BlocProvider(
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepository>(),

@@ -5,6 +5,7 @@ class UserModel {
   final String email;
   final String password;
   final String role;
+  final String company;
 
   UserModel({
     required this.fullName,
@@ -13,6 +14,7 @@ class UserModel {
     required this.userId,
     required this.password,
     required this.role,
+    required this.company,
   });
 
   UserModel copyWith({
@@ -22,6 +24,7 @@ class UserModel {
     String? userId,
     String? password,
     String? role,
+    String? company,
   }) =>
       UserModel(
         fullName: fullName ?? this.fullName,
@@ -29,6 +32,7 @@ class UserModel {
         createdAt: createdAt ?? this.createdAt,
         userId: userId ?? this.userId,
         role: role ?? this.role,
+        company: company ?? this.company,
         password: password ?? this.password,
       );
 
@@ -39,6 +43,7 @@ class UserModel {
         userId: json['user_id'] as String? ?? '',
         password: json['password'] as String? ?? '',
         role: json['role'] as String? ?? '',
+        company: json['company'] as String? ?? '',
       );
 
   @override
@@ -48,6 +53,7 @@ class UserModel {
     createdAt: $createdAt,
     emailAddress: $email,
     role: $role,
+    company: $company,
     password: $password
   ''';
 
@@ -58,5 +64,6 @@ class UserModel {
         'email_address': email,
         'password': password,
         'role': role,
+        'company': company,
       };
 }

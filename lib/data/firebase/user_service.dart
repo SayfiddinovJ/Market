@@ -1,23 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:market/data/local/storage_repository.dart';
-import 'package:market/data/models/result.dart';
 import 'package:market/data/models/universal_data.dart';
 import 'package:market/data/models/user/user_model.dart';
 
 class UserService {
   Future<UniversalData> addUser({required UserModel userModel}) async {
     try {
-      DocumentReference newUser = await FirebaseFirestore.instance
-          .collection("users")
-          .add(userModel.toJson());
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email_address', isEqualTo: userModel.email)
+          .get();
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(newUser.id)
-          .update({
-        "user_id": newUser.id,
-      });
-      await StorageRepository.putString('user_id', newUser.id);
+      if (snapshot.docs.isNotEmpty) {
+        return UniversalData(error: "User already exists!");
+      } else {
+        DocumentReference newUser = await FirebaseFirestore.instance
+            .collection("users")
+            .add(userModel.toJson());
+
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(newUser.id)
+            .update({
+          "user_id": newUser.id,
+        });
+        await StorageRepository.putString('user_id', newUser.id);
+        await StorageRepository.putString('key', newUser.id);
+        await StorageRepository.putString('role', newUser.id);
+      }
+
       return UniversalData(data: "User added!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);
@@ -55,18 +66,18 @@ class UserService {
     }
   }
 
-  Future<Result> getUserByUserId() async {
+  Future<UniversalData> getUserByUserId() async {
     String userId = StorageRepository.getString('user_id');
     try {
       final user = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get();
-      return Result.success(UserModel.fromJson(user.data()!));
+      return UniversalData(data: UserModel.fromJson(user.data()!));
     } on FirebaseException catch (e) {
-      return Result.fail(e.code);
+      return UniversalData(error: e.toString());
     } catch (e) {
-      return Result.fail(e.toString());
+      return UniversalData(error: e.toString());
     }
   }
 }

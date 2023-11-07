@@ -21,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userId: '',
               password: '',
               role: '',
+              company: '',
             ),
             status: FormStatus.pure,
             statusMessage: '',
@@ -56,9 +57,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LogInWithGoogleEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: FormStatus.loading));
     UniversalData data = await authRepository.logInWithGoogle();
-    await userRepository.addUser(userModel: state.userModel);
+    await userRepository.addUser(
+      userModel: UserModel(
+        fullName: data.data['name'],
+        email: data.data['email'],
+        createdAt: DateTime.now().toString(),
+        userId: '',
+        password: '',
+        role: '',
+        company: '',
+      ),
+    );
     if (data.error.isEmpty) {
-      emit(state.copyWith(status: FormStatus.unauthenticated));
+      emit(state.copyWith(status: FormStatus.authenticated));
     } else {
       emit(
         state.copyWith(
@@ -121,6 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         userId: '',
         password: '',
         role: '',
+        company: '',
       ),
     ));
   }

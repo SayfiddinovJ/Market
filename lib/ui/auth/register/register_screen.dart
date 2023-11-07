@@ -27,6 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listener: (context, state) {
           String role = StorageRepository.getString('role');
           if (state.status == FormStatus.authenticated) {
+            hideLoading(context: context);
             Fluttertoast.showToast(msg: 'OMPga xush kelibsiz');
             Navigator.pushAndRemoveUntil(
               context,
@@ -45,6 +46,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             showLoading(context: context);
           }
           if (state.status == FormStatus.success) {
+            hideLoading(context: context);
+          }
+          if (state.status == FormStatus.unauthenticated) {
             hideLoading(context: context);
           }
         },

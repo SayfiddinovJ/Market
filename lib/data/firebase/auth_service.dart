@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/universal_data.dart';
 import 'package:market/data/models/user/user_model.dart';
 
@@ -12,7 +11,6 @@ class AuthService {
         email: userModel.email,
         password: userModel.password,
       );
-      await StorageRepository.putString('role', userModel.role);
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.message ?? "");
@@ -28,7 +26,6 @@ class AuthService {
         email: userModel.email,
         password: userModel.password,
       );
-      await StorageRepository.putString('role', userModel.role);
       return UniversalData(data: userCredential);
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.message ?? "");
@@ -39,9 +36,6 @@ class AuthService {
 
   Future<UniversalData> logOutUser() async {
     try {
-      await StorageRepository.deleteString('role');
-      await StorageRepository.deleteString('key');
-      await StorageRepository.deleteString('user_id');
       await FirebaseAuth.instance.signOut();
       return UniversalData(data: "User Logged Out");
     } on FirebaseAuthException catch (e) {
@@ -64,10 +58,18 @@ class AuthService {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+
     try {
+      // Sign in to Firebase with the credential
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      return UniversalData(data: userCredential);
+
+      // Access the user data from the User object
+      String? name = userCredential.user?.displayName;
+      String? email = userCredential.user?.email;
+
+      // Return the user data in a UniversalData object
+      return UniversalData(data: {'name': name, 'email': email});
     } on FirebaseAuthException catch (e) {
       return UniversalData(error: e.code);
     } catch (error) {
