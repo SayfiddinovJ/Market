@@ -6,9 +6,13 @@ import 'package:market/bloc/auth_bloc/auth_bloc.dart';
 import 'package:market/cubits/get_user_cubit/user_cubit.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/firebase/auth_service.dart';
+import 'package:market/data/firebase/category_service.dart';
+import 'package:market/data/firebase/product_service.dart';
 import 'package:market/data/firebase/user_service.dart';
 import 'package:market/data/local/storage_repository.dart';
 import 'package:market/repositories/auth_repository.dart';
+import 'package:market/repositories/category_repository.dart';
+import 'package:market/repositories/product_repository.dart';
 import 'package:market/repositories/user_repository.dart';
 import 'package:market/ui/splash/splash_screen.dart';
 
@@ -16,7 +20,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageRepository.getInstance();
   await Firebase.initializeApp();
-  runApp(AppLevel(authService: AuthService(), userService: UserService()));
+  runApp(
+    AppLevel(
+      authService: AuthService(),
+      userService: UserService(),
+      categoryService: CategoryService(),
+      productService: ProductService(),
+    ),
+  );
 }
 
 class AppLevel extends StatelessWidget {
@@ -24,10 +35,14 @@ class AppLevel extends StatelessWidget {
     super.key,
     required this.authService,
     required this.userService,
+    required this.categoryService,
+    required this.productService,
   });
 
   final AuthService authService;
   final UserService userService;
+  final CategoryService categoryService;
+  final ProductService productService;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +52,12 @@ class AppLevel extends StatelessWidget {
             create: (context) => AuthRepository(authService: authService)),
         RepositoryProvider(
             create: (context) => UserRepository(userService: userService)),
+        RepositoryProvider(
+            create: (context) =>
+                CategoryRepository(categoryService: categoryService)),
+        RepositoryProvider(
+            create: (context) =>
+                ProductRepository(productService: productService)),
       ],
       child: MultiBlocProvider(
         providers: [

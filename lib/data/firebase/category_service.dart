@@ -59,4 +59,19 @@ class CategoryService {
       return UniversalData(error: error.toString());
     }
   }
+
+  Future<UniversalData> getCategories() async {
+    try {
+      String company = StorageRepository.getString('company');
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('${company}categories')
+          .get();
+
+      return UniversalData(data: querySnapshot);
+    } on FirebaseException catch (e) {
+      return UniversalData(error: e.toString());
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
 }

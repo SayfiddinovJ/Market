@@ -4,8 +4,7 @@ import 'package:market/data/models/product/product_model.dart';
 import 'package:market/data/models/universal_data.dart';
 
 class ProductService {
-  static Future<UniversalData> addProduct(
-      {required ProductModel productModel}) async {
+  Future<UniversalData> addProduct({required ProductModel productModel}) async {
     try {
       String company = StorageRepository.getString('company');
       DocumentReference newProduct = await FirebaseFirestore.instance
@@ -27,7 +26,7 @@ class ProductService {
     }
   }
 
-  static Future<UniversalData> updateProduct(
+  Future<UniversalData> updateProduct(
       {required ProductModel productModel}) async {
     try {
       String company = StorageRepository.getString('company');
@@ -44,8 +43,7 @@ class ProductService {
     }
   }
 
-  static Future<UniversalData> deleteProduct(
-      {required String productId}) async {
+  Future<UniversalData> deleteProduct({required String productId}) async {
     try {
       String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
@@ -61,28 +59,18 @@ class ProductService {
     }
   }
 
-  // Future<UniversalData> getAllProducts() async {
-  //   try {
-  //     String company = StorageRepository.getString('company');
-  //     final querySnapshot =
-  //     await FirebaseFirestore.instance.collection('products').get();
-  //
-  //     List<Product> products = [];
-  //
-  //     for (var document in querySnapshot.docs) {
-  //       products.add(Product.fromJson(document.data()));
-  //     }
-  //
-  //     return products;
-  //   } on FirebaseException catch (e) {
-  //     // Handle Firebase exceptions
-  //     print('FirebaseException: $e');
-  //     return [];
-  //   } catch (e) {
-  //     // Handle other exceptions
-  //     print('Error: $e');
-  //     return [];
-  //   }
-  // }
+  Future<UniversalData> getProducts() async {
+    try {
+      String company = StorageRepository.getString('company');
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('${company}products')
+          .get();
 
+      return UniversalData(data: querySnapshot);
+    } on FirebaseException catch (e) {
+      return UniversalData(error: e.toString());
+    } catch (e) {
+      return UniversalData(error: e.toString());
+    }
+  }
 }
