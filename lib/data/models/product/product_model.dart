@@ -1,7 +1,7 @@
 class ProductModel {
   int count;
   int price;
-  List<dynamic> productImages;
+  String image;
   String categoryId;
   String productId;
   String productName;
@@ -11,7 +11,7 @@ class ProductModel {
   ProductModel({
     required this.count,
     required this.price,
-    required this.productImages,
+    required this.image,
     required this.categoryId,
     required this.productId,
     required this.productName,
@@ -22,7 +22,7 @@ class ProductModel {
   ProductModel copyWith({
     int? count,
     int? price,
-    List<dynamic>? productImages,
+    String? image,
     String? categoryId,
     String? productId,
     String? productName,
@@ -32,7 +32,7 @@ class ProductModel {
     return ProductModel(
       count: count ?? this.count,
       price: price ?? this.price,
-      productImages: productImages ?? this.productImages,
+      image: image ?? this.image,
       categoryId: categoryId ?? this.categoryId,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
@@ -45,7 +45,7 @@ class ProductModel {
     return ProductModel(
       count: jsonData['count'] as int? ?? 0,
       price: jsonData['price'] as int? ?? 0,
-      productImages: (jsonData['productImages'] as List<dynamic>? ?? []),
+      image: jsonData['image'] as String? ?? '',
       categoryId: jsonData['categoryId'] as String? ?? '',
       productId: jsonData['productId'] as String? ?? '',
       productName: jsonData['productName'] as String? ?? '',
@@ -58,7 +58,7 @@ class ProductModel {
     return {
       'count': count,
       'price': price,
-      'productImages': productImages,
+      'image': image,
       'categoryId': categoryId,
       'productId': productId,
       'productName': productName,
@@ -72,7 +72,7 @@ class ProductModel {
     return '''
       count: $count,
       price: $price,
-      productImages: $productImages,
+      image: $image,
       categoryId: $categoryId,
       productId: $productId,
       productName: $productName,

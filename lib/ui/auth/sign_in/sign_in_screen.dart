@@ -28,7 +28,7 @@ class _SignInScreenState extends State<SignInScreen> {
           String role = StorageRepository.getString('role');
           if (state.status == FormStatus.authenticated) {
             hideLoading(context: context);
-            Fluttertoast.showToast(msg: 'OMPga Marketga xush kelibsiz');
+            Fluttertoast.showToast(msg: 'SSL Marketga xush kelibsiz');
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

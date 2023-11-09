@@ -42,7 +42,7 @@ class _SignInFieldsState extends State<SignInFields> {
           16.ph,
           Center(
             child: Text(
-              'OMPga Xush kelibsiz',
+              'SSL Marketga Xush kelibsiz',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.sp,

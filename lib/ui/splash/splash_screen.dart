@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               Text(
-                'Open Market Place',
+                'SSL Market',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24.sp,

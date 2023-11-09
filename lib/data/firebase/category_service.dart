@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/category/category_model.dart';
 import 'package:market/data/models/universal_data.dart';
 
@@ -6,12 +7,13 @@ class CategoryService {
   Future<UniversalData> addCategory(
       {required CategoryModel categoryModel}) async {
     try {
+      String company = StorageRepository.getString('company');
       DocumentReference newCategory = await FirebaseFirestore.instance
-          .collection("categories")
+          .collection("${company}categories")
           .add(categoryModel.toJson());
 
       await FirebaseFirestore.instance
-          .collection("categories")
+          .collection("${company}categories")
           .doc(newCategory.id)
           .update({
         "categoryId": newCategory.id,
@@ -28,8 +30,9 @@ class CategoryService {
   Future<UniversalData> updateCategory(
       {required CategoryModel categoryModel}) async {
     try {
+      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("categories")
+          .collection("${company}categories")
           .doc(categoryModel.categoryId)
           .update(categoryModel.toJson());
 
@@ -43,8 +46,9 @@ class CategoryService {
 
   Future<UniversalData> deleteCategory({required String categoryId}) async {
     try {
+      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("categories")
+          .collection("${company}categories")
           .doc(categoryId)
           .delete();
 
