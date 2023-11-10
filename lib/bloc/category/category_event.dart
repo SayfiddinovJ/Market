@@ -14,3 +14,10 @@ class DeleteCategory extends CategoryEvent {
 
   DeleteCategory({required this.categoryId});
 }
+
+class UpdateCurrentCategory extends CategoryEvent {
+  final dynamic value;
+  final CategoryFieldKeys fieldKeys;
+
+  UpdateCurrentCategory({required this.value, required this.fieldKeys});
+}

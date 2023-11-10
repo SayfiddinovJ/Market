@@ -5,6 +5,7 @@ class ProductModel {
   String categoryId;
   String productId;
   String productName;
+  String barcode;
   String description;
   String createdAt;
 
@@ -15,6 +16,7 @@ class ProductModel {
     required this.categoryId,
     required this.productId,
     required this.productName,
+    required this.barcode,
     required this.description,
     required this.createdAt,
   });
@@ -26,6 +28,7 @@ class ProductModel {
     String? categoryId,
     String? productId,
     String? productName,
+    String? barcode,
     String? description,
     String? createdAt,
   }) {
@@ -36,6 +39,7 @@ class ProductModel {
       categoryId: categoryId ?? this.categoryId,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
+      barcode: barcode ?? this.barcode,
       description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -49,6 +53,7 @@ class ProductModel {
       categoryId: jsonData['categoryId'] as String? ?? '',
       productId: jsonData['productId'] as String? ?? '',
       productName: jsonData['productName'] as String? ?? '',
+      barcode: jsonData['barcode'] as String? ?? '',
       description: jsonData['description'] as String? ?? '',
       createdAt: jsonData['createdAt'] as String? ?? '',
     );
@@ -62,6 +67,7 @@ class ProductModel {
       'categoryId': categoryId,
       'productId': productId,
       'productName': productName,
+      'barcode': barcode,
       'description': description,
       'createdAt': createdAt,
     };
@@ -76,6 +82,7 @@ class ProductModel {
       categoryId: $categoryId,
       productId: $productId,
       productName: $productName,
+      barcode: $barcode,
       description: $description,
       createdAt: $createdAt
       ''';

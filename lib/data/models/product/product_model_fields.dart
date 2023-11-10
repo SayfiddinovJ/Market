@@ -5,6 +5,7 @@ enum ProductFieldKeys {
   categoryId,
   productId,
   productName,
+  barcode,
   description,
   createdAt,
 }

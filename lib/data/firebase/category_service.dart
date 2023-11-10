@@ -67,7 +67,11 @@ class CategoryService {
           .collection('${company}categories')
           .get();
 
-      return UniversalData(data: querySnapshot);
+      List<CategoryModel> categories = querySnapshot.docs
+          .map((doc) => CategoryModel.fromJson(doc.data()))
+          .toList();
+
+      return UniversalData(data: categories);
     } on FirebaseException catch (e) {
       return UniversalData(error: e.toString());
     } catch (e) {

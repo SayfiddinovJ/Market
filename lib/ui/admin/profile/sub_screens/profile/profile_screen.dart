@@ -17,7 +17,6 @@ class ProfileScreenAdmin extends StatefulWidget {
 }
 
 class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
-
   _init() {
     BlocProvider.of<UserCubit>(context).fetchClientData();
   }
@@ -33,6 +32,15 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xFF9098B1),
+          ),
+        ),
         backgroundColor: Colors.white,
         elevation: 1,
         title: Text(
@@ -54,7 +62,6 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                   name: state.user.fullName,
                   email: state.user.email,
                 ),
-
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
