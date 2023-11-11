@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/data/local/storage_repository.dart';
-import 'package:market/ui/admin/profile/sub_screens/profile/profile_screen.dart';
+import 'package:market/ui/admin/profile/sub_screens/category_add_screen.dart';
+import 'package:market/ui/admin/profile/sub_screens/product_add_screen.dart';
+import 'package:market/ui/admin/profile/sub_screens/profile_screen.dart';
 import 'package:market/ui/admin/profile/widgets/account_tile.dart';
+import 'package:market/utils/dialog/simple_dialog.dart';
 
 class AccountScreenAdmin extends StatefulWidget {
   const AccountScreenAdmin({super.key});
@@ -46,12 +49,20 @@ class _AccountScreenAdminState extends State<AccountScreenAdmin> {
             text: 'Kategoriya qo\'shish',
             iconData: Icons.add_circle,
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreenAdmin(),
-                ),
-              );
+              String company = StorageRepository.getString('company');
+              if (company.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CategoryAddScreen(),
+                  ),
+                );
+              } else {
+                showSimpleDialog(
+                  message: 'Avval do\'koningiz nomini kiriting',
+                  context: context,
+                );
+              }
             },
           ),
           AccountTile(
@@ -59,12 +70,25 @@ class _AccountScreenAdminState extends State<AccountScreenAdmin> {
             iconData: Icons.add_circle,
             onTap: () {
               String company = StorageRepository.getString('company');
+              String category = StorageRepository.getString('category');
               if (company.isNotEmpty) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfileScreenAdmin(),
-                  ),
+                if (category.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductAddScreen(),
+                    ),
+                  );
+                } else {
+                  showSimpleDialog(
+                    message: 'Avval kategoriya qo\'shing',
+                    context: context,
+                  );
+                }
+              } else {
+                showSimpleDialog(
+                  message: 'Avval do\'koningiz nomini kiriting',
+                  context: context,
                 );
               }
             },
