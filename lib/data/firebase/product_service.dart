@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/product/product_model.dart';
 import 'package:market/data/models/universal_data.dart';
 
 class ProductService {
   Future<UniversalData> addProduct({required ProductModel productModel}) async {
     try {
-      String company = StorageRepository.getString('company');
       DocumentReference newProduct = await FirebaseFirestore.instance
-          .collection("${company}products")
+          .collection("products")
           .add(productModel.toJson());
 
       await FirebaseFirestore.instance
-          .collection("${company}products")
+          .collection("products")
           .doc(newProduct.id)
           .update({
         "productId": newProduct.id,
@@ -29,9 +27,8 @@ class ProductService {
   Future<UniversalData> updateProduct(
       {required ProductModel productModel}) async {
     try {
-      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("${company}products")
+          .collection("products")
           .doc(productModel.productId)
           .update(productModel.toJson());
 
@@ -45,9 +42,8 @@ class ProductService {
 
   Future<UniversalData> deleteProduct({required String productId}) async {
     try {
-      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("${company}products")
+          .collection("products")
           .doc(productId)
           .delete();
 
@@ -61,10 +57,8 @@ class ProductService {
 
   Future<UniversalData> getProducts() async {
     try {
-      String company = StorageRepository.getString('company');
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('${company}products')
-          .get();
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('products').get();
 
       return UniversalData(data: querySnapshot);
     } on FirebaseException catch (e) {

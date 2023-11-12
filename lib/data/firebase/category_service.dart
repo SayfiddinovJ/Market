@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/category/category_model.dart';
 import 'package:market/data/models/universal_data.dart';
 
@@ -7,13 +6,12 @@ class CategoryService {
   Future<UniversalData> addCategory(
       {required CategoryModel categoryModel}) async {
     try {
-      String company = StorageRepository.getString('company');
       DocumentReference newCategory = await FirebaseFirestore.instance
-          .collection("${company}categories")
+          .collection("categories")
           .add(categoryModel.toJson());
 
       await FirebaseFirestore.instance
-          .collection("${company}categories")
+          .collection("categories")
           .doc(newCategory.id)
           .update({
         "categoryId": newCategory.id,
@@ -30,9 +28,8 @@ class CategoryService {
   Future<UniversalData> updateCategory(
       {required CategoryModel categoryModel}) async {
     try {
-      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("${company}categories")
+          .collection("categories")
           .doc(categoryModel.categoryId)
           .update(categoryModel.toJson());
 
@@ -46,9 +43,8 @@ class CategoryService {
 
   Future<UniversalData> deleteCategory({required String categoryId}) async {
     try {
-      String company = StorageRepository.getString('company');
       await FirebaseFirestore.instance
-          .collection("${company}categories")
+          .collection("categories")
           .doc(categoryId)
           .delete();
 
@@ -62,10 +58,8 @@ class CategoryService {
 
   Future<UniversalData> getCategories() async {
     try {
-      String company = StorageRepository.getString('company');
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('${company}categories')
-          .get();
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('categories').get();
 
       List<CategoryModel> categories = querySnapshot.docs
           .map((doc) => CategoryModel.fromJson(doc.data()))

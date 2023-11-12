@@ -4,11 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/bloc/auth_bloc/auth_bloc.dart';
 import 'package:market/bloc/auth_bloc/auth_event.dart';
 import 'package:market/cubits/get_user_cubit/user_cubit.dart';
-import 'package:market/data/local/storage_repository.dart';
 import 'package:market/ui/user/profile/widgets/profile_tile.dart';
 import 'package:market/ui/widgets/global_button.dart';
 import 'package:market/utils/dialog/message_dialog.dart';
-import 'package:market/utils/dialog/text_field_dialog.dart';
 import 'package:market/utils/extensions/extensions.dart';
 
 class ProfileScreenAdmin extends StatefulWidget {
@@ -57,7 +55,6 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
       body: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           if (state is GetUserSuccess) {
-            String company = StorageRepository.getString('company');
             return Column(
               children: [
                 24.ph,
@@ -68,15 +65,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                 32.ph,
                 const Divider(),
                 InkWell(
-                  onTap: () async {
-                    if (company.isEmpty) {
-                      await showTextFieldDialog(
-                        message: 'Do\'koningiz nomini kiriting',
-                        context: context,
-                      );
-                      setState(() {});
-                    }
-                  },
+                  onTap: () {},
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
@@ -98,7 +87,9 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                         ),
                         const Spacer(),
                         Text(
-                          company.isNotEmpty ? company : 'Hech narsa',
+                          state.user.company.isNotEmpty
+                              ? state.user.company.toUpperCase()
+                              : 'Hech narsa',
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,

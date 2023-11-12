@@ -30,6 +30,7 @@ class CategoryState {
   String canAdd() {
     if (categoryModel.imageUrl.isEmpty) return "Rasmni yuklang";
     if (categoryModel.categoryName.isEmpty) return "Nomini kiriting";
+    if (categoryModel.company.isEmpty) return "Nomini kiriting";
     if (categoryModel.description.isEmpty) return "Tavsifni kiriting";
     return "";
   }

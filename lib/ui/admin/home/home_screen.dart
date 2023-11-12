@@ -14,6 +14,7 @@ class HomeScreenAdmin extends StatelessWidget {
           onTap: () {
             showSearch(context: context, delegate: ProductSearchDelegate([]));
           },
+          text: 'Mahsulot Izlash',
         ),
         backgroundColor: Colors.white,
         elevation: 1,

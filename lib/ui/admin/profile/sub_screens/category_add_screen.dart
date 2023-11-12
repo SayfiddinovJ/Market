@@ -29,6 +29,10 @@ class CategoryAddScreen extends StatelessWidget {
         ),
         elevation: 1,
       ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+        physics: const BouncingScrollPhysics(),
+      ),
     );
   }
 }

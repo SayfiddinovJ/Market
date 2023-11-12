@@ -20,6 +20,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
               description: '',
               imageUrl: '',
               createdAt: '',
+              company: '',
             ),
             categories: const [],
             status: FormStatus.pure,
@@ -133,6 +134,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       case CategoryFieldKeys.description:
         category = category.copyWith(description: event.value as String);
+        break;
+      case CategoryFieldKeys.company:
+        category = category.copyWith(company: event.value as String);
         break;
     }
 

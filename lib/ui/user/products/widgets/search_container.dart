@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/utils/extensions/extensions.dart';
 
 class SearchContainer extends StatelessWidget {
-  const SearchContainer({super.key, required this.onTap});
+  const SearchContainer({super.key, required this.onTap, required this.text});
 
   final VoidCallback onTap;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SearchContainer extends StatelessWidget {
             ),
             8.pw,
             Text(
-              'Mahsulot Izlash',
+              text,
               style: TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w400,

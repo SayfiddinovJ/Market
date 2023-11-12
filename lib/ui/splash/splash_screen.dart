@@ -53,11 +53,15 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         );
       },
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is GetUserSuccess) {
           String key = StorageRepository.getString('key');
           debugPrint('Key: $key');
           debugPrint('Role: ${state.user.role}');
+          await StorageRepository.putString(
+            'company',
+            state.user.company.toUpperCase(),
+          );
           if (context.mounted) {
             Navigator.pushReplacement(
               context,
@@ -71,10 +75,13 @@ class _SplashScreenState extends State<SplashScreen> {
         }
         if (state is GetUserError) {
           debugPrint('ERROR');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const SignInScreen()),
-          );
+          debugPrint('ERROR: ${state.errorMessage}');
+          if (context.mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const SignInScreen()),
+            );
+          }
         }
         if (state is GetUserLoading) {
           debugPrint('LOADING');
