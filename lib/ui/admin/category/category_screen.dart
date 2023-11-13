@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:market/ui/user/products/widgets/search_container.dart';
 
 class CategoryScreenAdmin extends StatelessWidget {
   const CategoryScreenAdmin({super.key});
@@ -6,7 +7,16 @@ class CategoryScreenAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.blue),
+        title: SearchContainer(
+          onTap: () {},
+          text: 'Mahsulot Izlash',
+        ),
+        backgroundColor: Colors.white,
+        elevation: 1,
+      ),
     );
   }
 }

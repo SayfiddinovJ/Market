@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:market/data/local/storage_repository.dart';
 import 'package:market/data/models/category/category_model.dart';
 import 'package:market/data/models/universal_data.dart';
+import 'package:market/utils/extensions/extensions.dart';
 
 class CategoryService {
   Future<UniversalData> addCategory(
@@ -16,7 +18,9 @@ class CategoryService {
           .update({
         "categoryId": newCategory.id,
       });
-
+      List<String> categories = StorageRepository.getList('categories');
+      categories.add(categoryModel.categoryName.capitalize as String);
+      await StorageRepository.putList('categories', categories);
       return UniversalData(data: "Category added!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);

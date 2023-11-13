@@ -18,6 +18,7 @@ class GlobalTextField extends StatefulWidget {
   final EdgeInsets? contentPadding;
   final int? maxLines;
   final int? maxLength;
+  final int? height;
   final TextCapitalization textCapitalization;
 
   const GlobalTextField({
@@ -30,6 +31,7 @@ class GlobalTextField extends StatefulWidget {
     this.maxLength,
     this.maxLines = 1,
     this.caption = "",
+    this.height = 60,
     this.suffixIcon,
     this.readOnly = false,
     this.controller,
@@ -69,7 +71,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 69.h,
+      height: 60.h,
       child: TextField(
         onChanged: widget.onChanged,
         readOnly: widget.readOnly,
@@ -84,7 +86,6 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
         decoration: InputDecoration(
           counterText: '',
           hintStyle: TextStyle(
-            fontFamily: "Urbanist",
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
             color: const Color(0xff9e9e9e),
