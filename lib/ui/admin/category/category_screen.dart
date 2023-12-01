@@ -12,7 +12,7 @@ class CategoryScreenAdmin extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.blue),
         title: SearchContainer(
           onTap: () {},
-          text: 'Mahsulot Izlash',
+          text: 'Kategoriya Izlash',
         ),
         backgroundColor: Colors.white,
         elevation: 1,
