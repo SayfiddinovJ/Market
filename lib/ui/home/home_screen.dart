@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:market/ui/admin/home/sub_screens/admin_drawer.dart';
+import 'package:market/ui/home/sub_screens/admin_drawer.dart';
 
-class HomeScreenAdmin extends StatelessWidget {
-  const HomeScreenAdmin({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

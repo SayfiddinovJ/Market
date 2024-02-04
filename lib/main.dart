@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/bloc/category/category_bloc.dart';
+import 'package:market/cubits/drawer_cubit.dart';
 import 'package:market/cubits/tabs_box_cubit.dart';
 import 'package:market/data/firebase/category_service.dart';
 import 'package:market/data/firebase/product_service.dart';
@@ -47,6 +48,7 @@ class AppLevel extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => TabsBoxCubit()),
+          BlocProvider(create: (context) => DrawerCubit()),
           BlocProvider(
             create: (context) => CategoryBloc(
                 categoryRepository: context.read<CategoryRepository>()),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:market/ui/admin/tabs_box_admin.dart';
+import 'package:market/ui/home/home_screen.dart';
 import 'package:market/utils/app_images/app_images.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -40,7 +40,7 @@ class SplashScreen extends StatelessWidget {
       () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const TabsBoxAdmin(),
+            builder: (context) => const HomeScreen(),
           ),
         );
       },
