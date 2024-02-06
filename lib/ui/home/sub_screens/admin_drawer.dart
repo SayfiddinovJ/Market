@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/cubits/drawer_cubit.dart';
+import 'package:market/ui/home/home_screen.dart';
+import 'package:market/ui/home/sub_screens/category_add_screen.dart';
 import 'package:market/ui/widgets/drawer_tile.dart';
 import 'package:market/utils/extensions/extensions.dart';
 
@@ -11,9 +13,6 @@ class AdminDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DrawerCubit, int>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
       builder: (context, state) {
         return Drawer(
           child: SingleChildScrollView(
@@ -56,7 +55,8 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     context.read<DrawerCubit>().changeIndex(0);
                   },
-                ),DrawerTile(
+                ),
+                DrawerTile(
                   iconData: Icons.category_outlined,
                   text: 'Kategoriya qo\'shish',
                   isActive: state == 1,
@@ -93,6 +93,28 @@ class AdminDrawer extends StatelessWidget {
           ),
         );
       },
+      listener: (context, state) {
+        _go(context, state);
+      },
+    );
+  }
+
+  _go(BuildContext context, int index) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          switch (index) {
+            case 0:
+              return const HomeScreen();
+            case 1:
+              return const CategoryAddScreen();
+            default:
+              return const HomeScreen();
+          }
+        },
+      ),
+      (route) => false,
     );
   }
 }

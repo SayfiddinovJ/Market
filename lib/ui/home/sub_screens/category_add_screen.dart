@@ -3,27 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:market/bloc/category/category_bloc.dart';
 import 'package:market/data/models/category/category_model_fields.dart';
+import 'package:market/ui/home/sub_screens/admin_drawer.dart';
 import 'package:market/ui/widgets/global_button.dart';
 import 'package:market/ui/widgets/global_textfield.dart';
+import 'package:market/ui/widgets/image_container.dart';
 import 'package:market/utils/extensions/extensions.dart';
 
-class CategoryAddScreen extends StatelessWidget {
+class CategoryAddScreen extends StatefulWidget {
   const CategoryAddScreen({super.key});
+
+  @override
+  State<CategoryAddScreen> createState() => _CategoryAddScreenState();
+}
+
+class _CategoryAddScreenState extends State<CategoryAddScreen> {
+  String path = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: const AdminDrawer(),
+      drawerScrimColor: Colors.blue,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF9098B1),
-          ),
-        ),
+        iconTheme: const IconThemeData(color: Colors.blue),
         backgroundColor: Colors.white,
         title: Text(
           'Kategoriya qo\'shish',
@@ -81,6 +84,19 @@ class CategoryAddScreen extends StatelessWidget {
                       ),
                 ),
                 24.ph,
+                Text(
+                  "Kategoriya rasmi",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF223263),
+                  ),
+                ),
+                12.ph,
+                ImageContainer(
+                  path: path,
+                  onTap: () {},
+                ),
               ],
             ),
           ),
