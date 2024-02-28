@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:market/bloc/category/category_bloc.dart';
 import 'package:market/data/models/category/category_model_fields.dart';
 import 'package:market/ui/home/sub_screens/admin_drawer.dart';
@@ -18,13 +19,14 @@ class CategoryAddScreen extends StatefulWidget {
 
 class _CategoryAddScreenState extends State<CategoryAddScreen> {
   String path = "";
+  ImagePicker picker = ImagePicker();
+  XFile? file;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const AdminDrawer(),
-      drawerScrimColor: Colors.blue,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.blue),
         backgroundColor: Colors.white,
@@ -38,78 +40,155 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
         ),
         elevation: 1,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              physics: const BouncingScrollPhysics(),
-              children: [
-                16.ph,
-                Text(
-                  "Kategoriya nomi",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF223263),
-                  ),
-                ),
-                12.ph,
-                GlobalTextField(
-                  hintText: 'Kategoriya nomi',
-                  onChanged: (v) => context.read<CategoryBloc>().add(
-                        UpdateCurrentCategory(
-                          value: v,
-                          fieldKeys: CategoryFieldKeys.categoryName,
-                        ),
+      body: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    16.ph,
+                    Text(
+                      "Kategoriya nomi",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF223263),
                       ),
-                ),
-                24.ph,
-                Text(
-                  "Kategoriya haqida",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF223263),
-                  ),
-                ),
-                12.ph,
-                GlobalTextField(
-                  hintText: 'Kategoriya haqida',
-                  onChanged: (v) => context.read<CategoryBloc>().add(
-                        UpdateCurrentCategory(
-                          value: v,
-                          fieldKeys: CategoryFieldKeys.description,
-                        ),
+                    ),
+                    12.ph,
+                    GlobalTextField(
+                      hintText: 'Kategoriya nomi',
+                      onChanged: (v) => context.read<CategoryBloc>().add(
+                            UpdateCurrentCategory(
+                              value: v,
+                              fieldKeys: CategoryFieldKeys.categoryName,
+                            ),
+                          ),
+                    ),
+                    24.ph,
+                    Text(
+                      "Kategoriya haqida",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF223263),
                       ),
+                    ),
+                    12.ph,
+                    GlobalTextField(
+                      hintText: 'Kategoriya haqida',
+                      onChanged: (v) => context.read<CategoryBloc>().add(
+                            UpdateCurrentCategory(
+                              value: v,
+                              fieldKeys: CategoryFieldKeys.description,
+                            ),
+                          ),
+                    ),
+                    24.ph,
+                    Text(
+                      "Kategoriya rasmi",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF223263),
+                      ),
+                    ),
+                    12.ph,
+                    ImageContainer(
+                      path: path,
+                      onTap: () {
+                        showBottomSheetDialog();
+                      },
+                    ),
+                    24.ph,
+                  ],
                 ),
-                24.ph,
-                Text(
-                  "Kategoriya rasmi",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF223263),
-                  ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: GlobalButton(
+                  text: 'Qo\'shish',
+                  onTap: () {
+                    if (path.isNotEmpty) {
+                      context
+                          .read<CategoryBloc>()
+                          .add(UploadImage(xFile: file!));
+                    }
+                  },
                 ),
-                12.ph,
-                ImageContainer(
-                  path: path,
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: GlobalButton(
-              text: 'Qo\'shish',
-              onTap: () {},
-            ),
-          ),
-          16.ph,
-        ],
+              ),
+              16.ph,
+            ],
+          );
+        },
       ),
     );
+  }
+
+  void showBottomSheetDialog() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                onTap: () {
+                  _getFromGallery();
+                  Navigator.pop(context);
+                },
+                leading: const Icon(Icons.photo_outlined),
+                title: const Text("Galareyadan tanlash"),
+              ),
+              ListTile(
+                onTap: () {
+                  _getFromCamera();
+                  Navigator.pop(context);
+                },
+                leading: const Icon(Icons.camera_alt_outlined),
+                title: const Text("Cameradan tanlash"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getFromGallery() async {
+    XFile? xFile = await picker.pickImage(
+      maxHeight: 512,
+      maxWidth: 512,
+      source: ImageSource.gallery,
+    );
+    if (xFile != null && context.mounted) {
+      path = xFile.path;
+      file = xFile;
+    }
+  }
+
+  Future<void> _getFromCamera() async {
+    XFile? xFile = await picker.pickImage(
+      maxHeight: 512,
+      maxWidth: 512,
+      source: ImageSource.camera,
+    );
+    if (xFile != null && context.mounted) {
+      path = xFile.path;
+      file = xFile;
+    }
   }
 }

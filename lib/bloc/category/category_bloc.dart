@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:market/data/models/category/category_model.dart';
 import 'package:market/data/models/category/category_model_fields.dart';
 import 'package:market/data/models/status.dart';
@@ -31,6 +32,24 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   final CategoryRepository categoryRepository;
+
+  uploadImage(UploadImage event, Emitter<CategoryState> emit) async {
+    emit(state.copyWith(status: FormStatus.loading));
+    UniversalData data = await categoryRepository.uploadImage(event.xFile);
+    debugPrint('Image path: ${data.data}');
+    if (data.error.isEmpty) {
+      emit(
+        state.copyWith(
+          statusMessage: 'Image uploaded successfully',
+          status: FormStatus.success,
+          categories: data.data,
+        ),
+      );
+    } else {
+      emit(state.copyWith(
+          statusMessage: data.error, status: FormStatus.failure));
+    }
+  }
 
   getCategories(GetCategories event, Emitter<CategoryState> emit) async {
     emit(state.copyWith(status: FormStatus.loading));

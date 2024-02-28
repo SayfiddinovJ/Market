@@ -7,6 +7,12 @@ class GetCategories extends CategoryEvent {}
 
 class UpdateCategory extends CategoryEvent {}
 
+class UploadImage extends CategoryEvent {
+  final XFile xFile;
+
+  UploadImage({required this.xFile});
+}
+
 class AddCategory extends CategoryEvent {}
 
 class DeleteCategory extends CategoryEvent {
