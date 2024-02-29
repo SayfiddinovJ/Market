@@ -26,23 +26,32 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             categories: const [],
             status: FormStatus.pure,
             statusMessage: '',
+            imageURL: '',
           ),
         ) {
-    on<CategoryEvent>((event, emit) {});
+    on<UploadImage>(uploadImage);
+    on<GetCategories>(getCategories);
+    on<AddCategory>(addCategory);
+    on<UpdateCategory>(updateCategory);
+    on<UpdateCurrentCategory>(updateCurrentCategory);
   }
 
   final CategoryRepository categoryRepository;
 
+  String canAdd() {
+    return state.canAdd();
+  }
+
   uploadImage(UploadImage event, Emitter<CategoryState> emit) async {
     emit(state.copyWith(status: FormStatus.loading));
     UniversalData data = await categoryRepository.uploadImage(event.xFile);
-    debugPrint('Image path: ${data.data}');
+    debugPrint('Image URL: ${data.data}');
     if (data.error.isEmpty) {
       emit(
         state.copyWith(
           statusMessage: 'Image uploaded successfully',
-          status: FormStatus.success,
-          categories: data.data,
+          status: FormStatus.pure,
+          imageURL: data.data,
         ),
       );
     } else {
@@ -160,6 +169,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
 
     debugPrint("Category model: $category");
+    debugPrint("When I like them they don't like me");
     emit(state.copyWith(categoryModel: category));
   }
 }

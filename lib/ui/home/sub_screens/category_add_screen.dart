@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:market/bloc/category/category_bloc.dart';
 import 'package:market/data/models/category/category_model_fields.dart';
+import 'package:market/data/models/status.dart';
+import 'package:market/ui/home/home_screen.dart';
 import 'package:market/ui/home/sub_screens/admin_drawer.dart';
 import 'package:market/ui/widgets/global_button.dart';
 import 'package:market/ui/widgets/global_textfield.dart';
@@ -40,7 +43,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
         ),
         elevation: 1,
       ),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocConsumer<CategoryBloc, CategoryState>(
         builder: (context, state) {
           return Column(
             children: [
@@ -61,12 +64,14 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
                     12.ph,
                     GlobalTextField(
                       hintText: 'Kategoriya nomi',
-                      onChanged: (v) => context.read<CategoryBloc>().add(
-                            UpdateCurrentCategory(
-                              value: v,
-                              fieldKeys: CategoryFieldKeys.categoryName,
-                            ),
-                          ),
+                      onChanged: (v) {
+                        context.read<CategoryBloc>().add(
+                              UpdateCurrentCategory(
+                                value: v,
+                                fieldKeys: CategoryFieldKeys.categoryName,
+                              ),
+                            );
+                      },
                     ),
                     24.ph,
                     Text(
@@ -113,9 +118,20 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
                   text: 'Qo\'shish',
                   onTap: () {
                     if (path.isNotEmpty) {
-                      context
-                          .read<CategoryBloc>()
-                          .add(UploadImage(xFile: file!));
+                      context.read<CategoryBloc>().add(
+                            UploadImage(xFile: file!),
+                          );
+                      context.read<CategoryBloc>().add(
+                            UpdateCurrentCategory(
+                              value: state.imageURL,
+                              fieldKeys: CategoryFieldKeys.imageUrl,
+                            ),
+                          );
+                      if (state.canAdd().isEmpty) {
+                        context.read<CategoryBloc>().add(AddCategory());
+                      }
+                    } else {
+                      Fluttertoast.showToast(msg: state.canAdd());
                     }
                   },
                 ),
@@ -123,6 +139,23 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
               16.ph,
             ],
           );
+        },
+        listener: (context, state) {
+          debugPrint('listener');
+          if (state.status == FormStatus.loading) {
+            const Center(child: CircularProgressIndicator());
+          }
+          if (state.status == FormStatus.success) {
+            if (context.mounted) {
+              Fluttertoast.showToast(msg: 'Kategoriya qo\'shildi');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ),
+              );
+            }
+          }
         },
       ),
     );
@@ -177,6 +210,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
     if (xFile != null && context.mounted) {
       path = xFile.path;
       file = xFile;
+      setState(() {});
     }
   }
 
@@ -189,6 +223,7 @@ class _CategoryAddScreenState extends State<CategoryAddScreen> {
     if (xFile != null && context.mounted) {
       path = xFile.path;
       file = xFile;
+      setState(() {});
     }
   }
 }
